@@ -1,4 +1,12 @@
-import { Avatar, Box, Button, TextField, Typography, useMediaQuery, useTheme } from "@mui/material";
+import {
+  Avatar,
+  Box,
+  Button,
+  TextField,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
 import React, { useState } from "react";
 import complete from "../assets/icon-complete.svg";
 
@@ -20,14 +28,17 @@ export const Form = ({ cardInfo, setCardInfo }) => {
   const onSubmit = (e) => {
     e.preventDefault();
 
-    console.log("Es solo numeros: ", /^\d+$/.test(cardInfo.cardNumber));
+    console.log("Es solo numeros e igual a dos: ", cardInfo.mounth.length !== 2 || !/^\d+$/.test(cardInfo.mounth));
     if (
       cardInfo.name.length === 0 ||
       cardInfo.cardNumber.length !== 16 ||
       !/^\d+$/.test(cardInfo.cardNumber) ||
       cardInfo.mounth.length !== 2 ||
       cardInfo.year.length !== 2 ||
-      cardInfo.cvc.length !== 3
+      cardInfo.cvc.length !== 3 ||
+      !/^\d+$/.test(cardInfo.mounth) ||
+      !/^\d+$/.test(cardInfo.year) ||
+      !/^\d+$/.test(cardInfo.cvc)
     ) {
       if (cardInfo.name.length === 0) {
         setErrors((prev) => {
@@ -50,7 +61,7 @@ export const Form = ({ cardInfo, setCardInfo }) => {
           return { ...prev, cardNumber: false };
         });
       }
-      if (cardInfo.mounth.length !== 2) {
+      if (cardInfo.mounth.length !== 2 || !/^\d+$/.test(cardInfo.mounth)) {
         setErrors((prev) => {
           return { ...prev, mounth: true };
         });
@@ -59,7 +70,7 @@ export const Form = ({ cardInfo, setCardInfo }) => {
           return { ...prev, mounth: false };
         });
       }
-      if (cardInfo.year.length !== 2) {
+      if (cardInfo.year.length !== 2 || !/^\d+$/.test(cardInfo.year)) {
         setErrors((prev) => {
           return { ...prev, year: true };
         });
@@ -68,7 +79,7 @@ export const Form = ({ cardInfo, setCardInfo }) => {
           return { ...prev, year: false };
         });
       }
-      if (cardInfo.cvc.length !== 3) {
+      if (cardInfo.cvc.length !== 3 || !/^\d+$/.test(cardInfo.cvc)) {
         setErrors((prev) => {
           return { ...prev, cvc: true };
         });
@@ -142,7 +153,7 @@ export const Form = ({ cardInfo, setCardInfo }) => {
           </Button>
         </Box>
       ) : (
-        <Box sx={{ padding: '1em'}}>
+        <Box sx={{ padding: "1em" }}>
           <Box>
             <Typography
               color="primary"
